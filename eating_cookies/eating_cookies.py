@@ -8,18 +8,18 @@ import sys
 
 
 def eating_cookies(n, cache=None):
-    DP = [0 for i in range(0, n + 1)]
-    # base cases
-    if n == 0 or n == 1:
-        return 1
-    if n == 2:
-        return 2
-    DP[0] = DP[1] = DP[2] = 1
-    DP[3] = 2
-    # Iterate for all values from 4 to n
-    for i in range(2, n + 1):
-        DP[i] = DP[i - 1] + DP[i - 2] + DP[i - 3]
-    return DP[n]
+    if n == 0:
+      return 1
+    elif n < 3:
+      return n
+    elif cache and cache[n] > 0:
+      return cache[n]
+    else:
+      if not cache:
+          cache = {i: 0 for i in range(n+1)}
+      cache[n] = eating_cookies(n-1, cache) + eating_cookies(n-2, cache) + eating_cookies(n-3, cache)
+      return cache[n]
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
